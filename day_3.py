@@ -36,6 +36,9 @@ for i, c in enumerate(lines):
         if not re.match(pattern, d) and not '.' in d:
             left = j != 0
             right = j != len(line) - 1
+
+            adjacent = []
+            gear = bool('*' in d)
             
             if above:
                 if left:
@@ -44,12 +47,14 @@ for i, c in enumerate(lines):
                         n = grabNumbersForwards(index, lines[i-1])
 
                         if n:
+                            adjacent.append(int(n))
                             part1 += int(n)
                 if re.match(pattern, lines[i-1][j]) and not re.match(pattern, lines[i-1][j-1]):
                     index = grabStartingIndex(j, lines[i-1])
                     n = grabNumbersForwards(index, lines[i-1])
 
                     if n:
+                        adjacent.append(int(n))
                         part1 += int(n)
                 if right:
                     if re.match(pattern, lines[i-1][j+1]) and not re.match(pattern, lines[i-1][j]):
@@ -57,6 +62,7 @@ for i, c in enumerate(lines):
                         n = grabNumbersForwards(index, lines[i-1])
 
                         if n:
+                            adjacent.append(int(n))
                             part1 += int(n)
             if left:
                 if re.match(pattern, lines[i][j-1]):
@@ -64,6 +70,7 @@ for i, c in enumerate(lines):
                     n = grabNumbersForwards(index, lines[i])
 
                     if n:
+                        adjacent.append(int(n))
                         part1 += int(n)
             if right:
                 if re.match(pattern, lines[i][j+1]):
@@ -71,6 +78,7 @@ for i, c in enumerate(lines):
                     n = grabNumbersForwards(index, lines[i])
                     
                     if n:
+                        adjacent.append(int(n))
                         part1 += int(n)
             if below:
                 if left:
@@ -79,12 +87,14 @@ for i, c in enumerate(lines):
                         n = grabNumbersForwards(index, lines[i+1])
 
                         if n:
+                            adjacent.append(int(n))
                             part1 += int(n)
                 if re.match(pattern, lines[i+1][j]) and not re.match(pattern, lines[i+1][j-1]):
                     index = grabStartingIndex(j, lines[i+1])
                     n = grabNumbersForwards(index, lines[i+1])
 
                     if n:
+                        adjacent.append(int(n))
                         part1 += int(n)
                 if right:
                     if re.match(pattern, lines[i+1][j+1]) and not re.match(pattern, lines[i+1][j]):
@@ -92,7 +102,11 @@ for i, c in enumerate(lines):
                         n = grabNumbersForwards(index, lines[i+1])
 
                         if n:
+                            adjacent.append(int(n))
                             part1 += int(n)
+
+            if gear and len(adjacent) == 2:
+                part2 += (adjacent[0] * adjacent[1])
 
 print('Part 1: ', part1)
 print('Part 2: ', part2)
